@@ -1,0 +1,24 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v3
+
+      - name: Build immagine Docker
+        run: docker build -t its-node-demo:latest .
+
+      - name: Verifica container
+        run: |
+          docker run -d --name test-container -p 3000:3000 its-node-demo:latest
+          sleep 3
+          curl http://localhost:3000
+          docker stop test-container
