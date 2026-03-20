@@ -1,6 +1,8 @@
 # Nome della pipeline che comparirà nella UI di GitHub Actions
 name: CI + Docker Hub Delivery
 
+## Pipeline v4 con tagging attivo 
+
 # Eventi che attivano la pipeline
 on:
   push: # Ogni push su qualsiasi branch
