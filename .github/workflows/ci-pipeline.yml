@@ -66,9 +66,9 @@ jobs:
     needs: build # Il job parte SOLO se il job build è riuscito
     runs-on: ubuntu-latest
 
-    env:                                                            
-        IMAGE_NAME: its-node-starter4                                 
-        DATE_TAG: ${{ github.run_id }}-${{ github.run_number }} 
+    env:
+      IMAGE_NAME: its-node-starter4
+      DATE_TAG: ${{ github.run_id }}-${{ github.run_number }}
 
     # Questo job si attiva SOLO se il push è sul branch "main"
     if: github.ref == 'refs/heads/main'
@@ -104,10 +104,10 @@ jobs:
       - name: Tag Docker image
         run: |
           docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
-          docker tag $IMAGE_NAME:${{ env.DATE_TAG }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ env.DATE_TAG }}
+          docker tag $IMAGE_NAME:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ env.DATE_TAG }}
 
       # Step 6 — Push finale verso Docker
       - name: Push Docker image to Docker Hub
         run: |
-          docker push $IMAGE_NAME:${{ github.sha }}
-          docker push $IMAGE_NAME:${{ env.DATE_TAG }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ env.DATE_TAG }}
